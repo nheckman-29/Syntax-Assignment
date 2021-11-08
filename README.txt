@@ -1,9 +1,9 @@
-Getting A Little Lexical 
+Syntax Assignment
 
 Nathan Heckman
 
-Question 1 --> Conway.java	Example Input.PNG	Q3 Report.txt
+Question 1 --> Lexical-Analyzer.py	Lexical-Analyzer.txt
 
-Question 2 --> Lexical-Analyzer.py	Lexical-Analyzer.txt
+Question 2 --> 
 
-Question 3 --> main.cpp		report.txt
+Question 3 -->
