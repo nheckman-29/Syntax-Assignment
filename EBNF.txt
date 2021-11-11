@@ -1,12 +1,9 @@
 //Created by Nathan Heckman
-//The Java syntax was chosen for all statements.
+//The Java syntax was chosen for all statements. Provides proof of concept for the EBNF rules.
 
 //<selection_statement> --> if '(' <expression> ')' <statement> [ else <statement> ]
-
 //<while_loop> --> while '(' <expression> ')' <statement>
-
 //<for_loop> --> for '(' <expression> ';' <expression> ';' <expression> ')' <statement>
-
 //<block> --> '{' {<statement>} '}'
 
 void selection_statement(){
@@ -94,14 +91,14 @@ void for_loop(){
 	}
 }
 void statement(){
-
+	//This is where statement checking would go
 }
 void expression(){
-
+	//This is where expression checking would go
 }
 void error(){
-
+	//This is where error reporting would go
 }
 void lex(){
-
+	//This is where the lexeme would be called to process out next token and grab the token after it
 }
