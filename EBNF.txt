@@ -76,7 +76,7 @@ void for_loop(){
 				lex(); //Process out next token and grab token after it
 				expression();
 				if(nextToken != SEMICOLON){
-				error();
+					error();
 				}
 				else{
 					lex(); //Process out next token and grab token after it
