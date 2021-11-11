@@ -5,7 +5,7 @@
 
 //<while_loop> --> while '(' <expression> ')' <statement>
 
-//<for_loop> --> for '(' [<expression>] ';' [<expression>] ';' [<expression>] ')' <statement>
+//<for_loop> --> for '(' <expression> ';' <expression> ';' <expression> ')' <statement>
 
 //<block> --> '{' {<statement>} '}'
 
