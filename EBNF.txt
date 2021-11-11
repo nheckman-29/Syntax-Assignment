@@ -93,3 +93,15 @@ void for_loop(){
 		}
 	}
 }
+void statement(){
+
+}
+void expression(){
+
+}
+void error(){
+
+}
+void lex(){
+
+}
