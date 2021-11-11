@@ -76,16 +76,34 @@ class Lexer(object):
 
 #Java defined regex rules
 rules = [
-    ('\d+',                              'NUMBER'),
-    ('.*for\s*(.*;.*;.*){.*}',           'FOR LOOP'),   #CHECK REGEX FOR THIS, ADD THE OTHERS
-    ('[a-zA-Z_]\w*',                     'IDENTIFIER'),
-    ('\+',                               'PLUS'),
-    ('\-',                               'MINUS'),
-    ('\*',                               'MULTIPLY'),
-    ('\/',                               'DIVIDE'),
-    ('\(',                               'LEFT PARENTHESIS'),
-    ('\)',                               'RIGHT PARENTHESIS'),
-    ('=',                                'EQUALS'),
+    ('//[^\n]*',                          'SINGLE LINE COMMENT'),
+    ('(\d*)\.\d+f?',                      'FLOAT LITERAL'),
+    ('"[^\n]*"',                          'STRING LITERAL'),
+    ('if\(.*\)',                          'IF STATEMENT'),
+    ('else',                              'ELSE STATEMENT'),
+    ('while\(.*\)',                       'WHILE LOOP'),
+    ('do',                                'DO STATEMENT'),
+    ('switch\(.*\)',                      'SWITCH STATEMENT'),
+    ('for\(.*\)',                         'FOR LOOP'),
+    ('\d+',                               'INTEGER LITERAL'),
+    ('[a-zA-Z_]\w*',                      'IDENTIFIER'),
+    ('\+\+',                              'INCREMENT'),
+    ('\-\-',                              'DECREMENT'),
+    ('\+',                                'PLUS'),
+    ('\-',                                'MINUS'),
+    ('\*',                                'MULTIPLY'),
+    ('\/',                                'DIVIDE'),
+    ('\(',                                'LEFT PARENTHESIS'),
+    ('\)',                                'RIGHT PARENTHESIS'),
+    ('\{',                                'LEFT CURLY'),
+    ('\}',                                'RIGHT CURLY'),
+    ('\[',                                'LEFT BRACKET'),
+    ('\]',                                'RIGHT BRACKET'),
+    (',',                                 'COMMA'),
+    (';',                                 'SEMICOLON'),
+    ('\.',                                'PERIOD'),
+    ('=',                                 'EQUALS'),
+    ('.',                                 'ERROR')
 ]
 #Create lexer object
 lexer = Lexer(rules, skip_whitespace=True)
@@ -97,7 +115,7 @@ public class add { //add two numbers
         int num1 = 5, num2 = 15, sum;
         sum = num1 + num2;
         System.out.println("Sum of these 2 numbers: " + sum);
-        
+        String fourty = "40";
         float f = 10.4f;
         int i = 100;
     }
@@ -105,7 +123,21 @@ public class add { //add two numbers
         //do nothing
     }
     for(int i = 0; i < 4; i++){
-        i++
+        i++;
+    }
+    if(x > 0){
+        //nothing
+    }
+    else{
+        //nothing
+    }
+    do{
+        //nothing
+    } while(x = 0){
+        //nothing
+        switch(x){
+            //nothing
+        }
     }
 } 
 ''')
