@@ -81,7 +81,7 @@ void for_loop(){
 				else{
 					lex(); //Process out next token and grab token after it
 					expression();
-					if(nextToken != LEFT_PAREN){
+					if(nextToken != RIGHT_PAREN){
 					error();
 					}
 					else{
