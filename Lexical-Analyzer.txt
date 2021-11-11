@@ -141,8 +141,12 @@ public class add { //add two numbers
     }
 } 
 ''')
+tokens = []                                         #Array to store the computed tokens
 try:
-    for token in lexer.tokens():
+    for token in lexer.tokens():                    #Add each token to list and print with object format
+        tokens.append(token.type)
         print(token)
 except LexerError as error:
-    print('Error at position %s' % error.pos)
+    print('Error at position %s' % error.pos)       #Error checking
+    
+print(tokens)                                       #Print token list. Used to compute RDA and EBNF for other questions
