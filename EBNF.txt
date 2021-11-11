@@ -91,7 +91,18 @@ void for_loop(){
 	}
 }
 void statement(){
-	//This is where statement checking would go
+	switch(nextToken){
+		case IF_CODE:
+			selection_statement();
+			break;
+		case WHILE_CODE:
+			while_loop();
+			break;
+		case LEFT_BRACKET:
+			block();
+			break;
+		default:
+			error();
 }
 void expression(){
 	//This is where expression checking would go
