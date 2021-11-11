@@ -1,0 +1,95 @@
+//Created by Nathan Heckman
+//The Java syntax was chosen for all statements.
+
+//<selection_statement> --> if '(' <expression> ')' <statement> [ else <statement> ]
+
+//<while_loop> --> while '(' <expression> ')' <statement>
+
+//<for_loop> --> for '(' [<expression>] ';' [<expression>] ';' [<expression>] ')' <statement>
+
+//<block> --> '{' {<statement>} '}'
+
+void selection_statement(){
+	if(nextToken != IF_CODE){
+		error();
+	}
+	else{
+		lex(); //Process out next token and grab token after it
+		if(nextToken != LEFT_PAREN){
+			error();
+		}
+		else{
+			lex(); //Process out next token and grab token after it
+			expression();
+			if(nextToken != RIGHT_PAREN){
+				error();
+			}
+			else{
+				lex();
+				statement();
+				if(nextToken == ELSE_CODE){ //NO ERROR IF ELSE ISN'T PRESENT
+					lex();
+					statement();
+				}
+			}
+		}
+	}
+}
+void while_loop(){
+	if(nextToken != WHILE_CODE){
+		error();
+	}
+	else{
+		lex(); //Process out next token and grab token after it
+		if(nextToken != LEFT_PAREN){
+			error();
+		}
+		else{
+			lex(); //Process out next token and grab token after it
+			expression();
+			if(nextToken != RIGHT_PAREN){
+				error();
+			}
+			else{
+				lex();
+				statement();
+			}
+		}
+	}
+}
+void for_loop(){
+	if(nextToken != FOR_CODE){
+		error();
+	}
+	else{
+		lex(); //Process out next token and grab token after it
+		if(nextToken != LEFT_PAREN){
+			error();
+		}
+		else{
+			lex(); //Process out next token and grab token after it
+			expression();
+			if(nextToken != SEMICOLON){
+				error();
+			}
+			else{
+				lex(); //Process out next token and grab token after it
+				expression();
+				if(nextToken != SEMICOLON){
+				error();
+				}
+				else{
+					lex(); //Process out next token and grab token after it
+					expression();
+					if(nextToken != LEFT_PAREN){
+					error();
+					}
+					else{
+						lex(); //Process out next token and grab token after it
+						statement();
+					}	
+				}
+			}
+		}
+	}
+}
