@@ -100,7 +100,7 @@ rules = [
     ('\[',                                'LEFT BRACKET'),
     ('\]',                                'RIGHT BRACKET'),
     ('<',                                 'LEFT WEDGE'),
-    ('>',                                 'LEFT WEDGE'),
+    ('>',                                 'RIGHT WEDGE'),
     (',',                                 'COMMA'),
     (';',                                 'SEMICOLON'),
     ('\.',                                'PERIOD'),
@@ -234,4 +234,4 @@ def expression():
     #This is where expression checking would go. Not required for assignment
 def error():
     x = 0   #Ignore this
-    #This is where error reporting would go
+    #This is where error reporting would go. Not required for assignment
