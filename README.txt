@@ -2,8 +2,6 @@ Syntax Assignment
 
 Nathan Heckman
 
-Question 1 --> Lexical-Analyzer.py	Lexical-Analyzer.txt
+All question answers are present in the following file:
 
-Question 2 --> 
-
-Question 3 --> EBNF.txt
+Lexical-Analyzer.py
