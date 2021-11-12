@@ -100,7 +100,7 @@ rules = [
     ('\[',                                'LEFT BRACKET'),
     ('\]',                                'RIGHT BRACKET'),
     ('<',                                 'LEFT WEDGE'),
-    ('>',                                 'RIGHT WEDGE'),
+    ('>',                                 'LEFT WEDGE'),
     (',',                                 'COMMA'),
     (';',                                 'SEMICOLON'),
     ('\.',                                'PERIOD'),
@@ -110,7 +110,7 @@ rules = [
 #Create lexer object
 lexer = Lexer(rules, skip_whitespace=True)
 
-#run lexical analysis on input string
+#run lexical analysis on input string. Below is a simple Java program to test
 lexer.input('''
 public class add { //add two numbers
     public static void main(String[] args){
@@ -149,89 +149,119 @@ try:
         tokens.append(token.type)
         print(token)
 except LexerError as error:
-    print('Error at position %s' % error.pos)       #Error checking
-
+    print('Error at position %s' % error.pos)       #Error checking for invalid or unrecognized token
 print()
 print(tokens)                                       #Print token list. Used to compute RDA and EBNF for other questions
+print()
 
 # Question 1 code is above. Question 2 and 3 begin below and follow Java convention
 
-# <selection_statement> --> if '(' <expression> ')' <statement> [ else <statement> ]
-# <while_loop> --> while '(' <expression> ')' <statement>
-# <for_loop> --> for '(' <expression> ';' <expression> ';' <expression> ')' <statement>
-# <block> --> '{' {<statement>} '}'
-
-index = 0
-nextToken = tokens[index]                   #Start analysis at beginning of token list
-
-def selection_statement():
-    if(nextToken != 'IF STATEMENT'):
-        error()                                 #End analysis and error out
+'''
+    <selection_statement> --> if '(' <expression> ')' <statement> [ else <statement> ]
+    <while_loop> --> while '(' <expression> ')' <statement>
+    <for_loop> --> for '(' <expression> ';' <expression> ';' <expression> ')' <statement>
+    <block> --> '{' {<statement>} '}'
+'''
+def selection_statement(nextToken, index, tokens):
+    if(nextToken != 'IF STATEMENT'):            #Check for if keyword
+        error()                                 #End analysis and error out if keyword not present
     else:
-        index += 1                              #Process out next token and grab token after it
-        expression()
-        if(nextToken != 'RIGHT PARENTHESIS'):
-            error()                             #End analysis and error out
+        index += 1                              #Increment token index
+        nextToken = tokens[index]               #Grab next token
+        nextToken, index, tokens = expression(nextToken, index, tokens)    #Run expression check with new information
+        if(nextToken != 'RIGHT PARENTHESIS'):   #Check for right parenthesis
+            error()                             #End analysis and error out if not present
         else:
-            index += 1                          #Process out next token and grab token after it
-            statement()
+            index += 1                          #Increment token index
+            nextToken = tokens[index]           #Grab next token
+            statement(nextToken, index, tokens) #Run statement check with new information
             if(nextToken == 'ELSE STATEMENT'):  #No error if else isn't present
-                index += 1
-                statement()
-    print('Success')
-def while_loop():
+                index += 1                      #Same as before
+                nextToken = tokens[index]
+                statement(nextToken, index, tokens) #Continue analysis
+def while_loop(nextToken, index, tokens):
     if(nextToken != 'WHILE LOOP'):
         error()                                 #End analysis and error out
     else:
-        index += 1                              #Process out next token and grab token after it
+        index += 1                              #Increment index to check next token
+        nextToken = tokens[index]               #Process out next token and grab token after it
         if(nextToken != 'LEFT PARENTHESIS'):
             error()                             #End analysis and error out
         else:
-            index += 1                          #Process out next token and grab token after it
-            expression()
+            index += 1                                                          #Process out next token and grab token after it
+            nextToken = tokens[index]                                           #Update nextToken
+            nextToken, index, tokens = expression(nextToken, index, tokens)     #Run through expression and return needed values
             if(nextToken != 'RIGHT PARENTHESIS'):  #No error if else isn't present
                 error()
             else:
                 index += 1
-                statement()
-    print('Success')
-def for_loop():
+                nextToken = tokens[index]
+                statement(nextToken, index, tokens)                             #Return to statement when successful and continue analysis
+def for_loop(nextToken, index, tokens):
     if(nextToken != 'FOR LOOP'):
         error()                                 #End analysis and error out
     else:
         index += 1                              #Process out next token and grab token after it
+        nextToken = tokens[index]               #Update nextToken
         if(nextToken != 'LEFT PARENTHESIS'):
             error()                             #End analysis and error out
         else:
             index += 1                          #Process out next token and grab token after it
-            expression()
+            nextToken = tokens[index]
+            nextToken, index, tokens = expression(nextToken, index, tokens)
             if(nextToken != 'SEMICOLON'):       #No error if else isn't present
                 error()
             else:
                 index += 1
-                expression()
+                nextToken = tokens[index]
+                nextToken, index, tokens = expression(nextToken, index, tokens)
                 if(nextToken != 'SEMICOLON'):
                     error()
                 else:
                     index += 1
-                    expression()
+                    nextToken = tokens[index]
+                    nextToken, index, tokens = expression(nextToken, index, tokens)
                     if(nextToken != 'RIGHT PARENTHESIS'):
                         error()
                     else:
                         index += 1
-                        statement()
-    print('Success')
-def statement():
+                        nextToken = tokens[index]
+                        statement(nextToken, index, tokens)
+def statement(nextToken, index, tokens):                        #Covers requirements for assignment
     if(nextToken == 'IF STATEMENT'):
-        selection_statement()
-    if(nextToken == 'WHILE LOOP'):
-        selection_statement()
-    if(nextToken == 'FOR LOOP'):
-        for_loop()
-    #More are possible but this demonstrates the use
-def expression():
-    x = 0   #Ignore this
-    #This is where expression checking would go. Not required for assignment
-def error():
-    x = 0   #Ignore this
-    #This is where error reporting would go
+        selection_statement(nextToken, index, tokens)
+    elif(nextToken == 'WHILE LOOP'):
+        while_loop(nextToken, index, tokens)
+    elif(nextToken == 'FOR LOOP'):
+        for_loop(nextToken, index, tokens)
+        print('SUCCESS - FOR LOOP')
+        print('SUCCESS - WHILE LOOP')
+        print('SUCCESS - IF STATEMENT')
+    else:
+        index += 1
+        nextToken = tokens[index]
+        statement(nextToken, index, tokens)
+def expression(nextToken, index, tokens):       #Question 2 code proof of concept
+    if(nextToken != 'IDENTIFIER'):              #Beginning of expression should be some sort of identifier
+        error()
+    else:
+        index += 1
+        nextToken = tokens[index]
+        #Check for valid operator
+        if(nextToken != 'PLUS' and nextToken != 'MINUS' and nextToken != 'MULTIPLY' and nextToken != 'DIVIDE' and nextToken != 'EQUALS'):
+            error()
+        else:
+            index += 1
+            nextToken = tokens[index]
+            #Check for valid data type
+            if(nextToken != 'INTEGER LITERAL' and nextToken != 'FLOAT LITERAL' and nextToken != 'IDENTIFIER' and nextToken != 'STRING LITERAL'):
+                error()
+            else:
+                index += 1
+                nextToken = tokens[index]
+    return nextToken, index, tokens         #Return values to be able to continue program
+def error():                                #Cover any present errors
+    x = 0                                   #Placeholder
+index = 0                                   #Track index throughout analysis
+nextToken = tokens[index]                   #Start analysis at beginning of token list
+statement(nextToken, index, tokens)         #Run the analysis after everything is defined
